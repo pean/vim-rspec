@@ -243,3 +243,29 @@ describe "RunAllSpecs"
     Expect Ref("s:last_spec") == ""
   end
 end
+
+describe "RunFailedSpecs"
+  before
+    let g:rspec_command = "!rspec {spec}"
+  end
+
+  after
+    unlet g:rspec_command
+  end
+
+  it "runs failed specs"
+    call Set("s:last_spec", "model_spec.rb:42")
+    call Set("s:last_spec_file", "model_spec.rb")
+    call Set("s:last_spec_file_with_line", "model_spec.rb:42")
+
+    call Call("RunFailedSpecs")
+
+    Expect Ref("s:rspec_command") == "!rspec --only-failures"
+  end
+
+  it "sets s:last_spec to 'spec'"
+    call Call("RunFailedSpecs")
+
+    Expect Ref("s:last_spec") == "--only-failures"
+  end
+end
