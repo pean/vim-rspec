@@ -43,6 +43,11 @@ function! RunFailedSpecs()
   call s:RunSpecs(s:last_spec)
 endfunction
 
+function! RunNextFailedSpec()
+  let s:last_spec = "--next-failure"
+  call s:RunSpecs(s:last_spec)
+endfunction
+
 " === local functions ===
 
 function! s:RunSpecs(spec_location)
